@@ -29,7 +29,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -42,8 +41,25 @@ class User(AbstractUser):
         unique=True,
     )
 
+    first_name = models.CharField(
+        max_length=100,
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+
     is_verified = models.BooleanField(
         default=False,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
     )
 
     objects = CustomUserManager()
@@ -51,3 +67,6 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
 
     REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.email
